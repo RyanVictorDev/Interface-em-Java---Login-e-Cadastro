@@ -4,15 +4,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Home extends JFrame {
-    private JPanel homePanel;
-    private JLabel opcoes;
-    private JToolBar navToolBar;
+public class BibliotecaPessoal extends JFrame{
+    private JPanel BibliotecaPanel;
     private JLabel Titulo;
-    private JButton button1;
+    private JLabel opcoes;
+    private JLabel TituloBiblio;
 
-    public Home() {
-        setContentPane(homePanel);
+    public BibliotecaPessoal(){
+        setContentPane(BibliotecaPanel);
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
