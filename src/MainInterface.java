@@ -15,18 +15,8 @@ public class MainInterface extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        cadastrarSeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Cadastro();
-            }
-        });
-        entrarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Login();
-            }
-        });
+        cadastrarSeButton.addActionListener(e -> new Cadastro());
+        entrarButton.addActionListener(e -> new Login());
     }
     public static void main(String[] args) {
         new MainInterface();
