@@ -46,11 +46,14 @@
           <text value="Biblioteca Pessoal"/>
         </properties>
       </component>
-      <vspacer id="f2af8">
+      <component id="32a7e" class="javax.swing.JLabel" binding="image" custom-create="true">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
-      </vspacer>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

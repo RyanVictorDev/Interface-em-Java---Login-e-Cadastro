@@ -19,7 +19,7 @@ public class MainInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Cadastro();
-            }
+            } 
         });
         entrarButton.addActionListener(new ActionListener() {
             @Override

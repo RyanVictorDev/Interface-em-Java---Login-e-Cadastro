@@ -9,6 +9,7 @@ public class Home extends JFrame {
     private JLabel opcoes;
     private JToolBar navToolBar;
     private JLabel Titulo;
+    private JLabel BoasVindas;
     private JButton button1;
 
     public Home() {

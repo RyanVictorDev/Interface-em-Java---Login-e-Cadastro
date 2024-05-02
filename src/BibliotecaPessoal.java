@@ -9,6 +9,7 @@ public class BibliotecaPessoal extends JFrame{
     private JLabel Titulo;
     private JLabel opcoes;
     private JLabel TituloBiblio;
+    private JLabel image;
 
     public BibliotecaPessoal(){
         setContentPane(BibliotecaPanel);
@@ -59,5 +60,9 @@ public class BibliotecaPessoal extends JFrame{
             }
 
         });
+    }
+
+    private void createUIComponents() {
+        image = new JLabel(new ImageIcon("jeojeo.jpg"));
     }
 }
