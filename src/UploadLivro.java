@@ -4,26 +4,34 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class BibliotecaPessoal extends JFrame{
-    private JPanel BibliotecaPanel;
+public class UploadLivro  extends JFrame{
+
+    private JPanel UploadPanel;
     private JLabel Titulo;
     private JLabel opcoes;
-    private JLabel TituloBiblio;
-    private JLabel image;
+    private JLabel TituloUpload;
+    private JTextField tituloInput;
+    private JLabel preco;
+    private JLabel categoria;
+    private JLabel autor;
+    private JLabel tituloLivro;
+    private JTextField autorInput;
+    private JTextField categoriaInput;
+    private JTextField precoInput;
 
-    public BibliotecaPessoal(String nomeUsuario){
-        setContentPane(BibliotecaPanel);
-        setSize(400, 300);
+    public UploadLivro(String nomeUsuario){
+        setContentPane(UploadPanel);
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
+
 
         // Criar um JPopupMenu
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem menuItem1 = new JMenuItem("Home");
         JMenuItem menuItem2 = new JMenuItem("Biblioteca Pessoal");
         JMenuItem menuItem3 = new JMenuItem("Sair");
-
 
         // Adicionar os itens de menu ao JPopupMenu
         popupMenu.add(menuItem1);
@@ -61,11 +69,6 @@ public class BibliotecaPessoal extends JFrame{
                     popupMenu.show(opcoes, e.getX(), e.getY());
                 }
             }
-
         });
-    }
-
-    private void createUIComponents() {
-        image = new JLabel(new ImageIcon("jeojeo.jpg"));
     }
 }

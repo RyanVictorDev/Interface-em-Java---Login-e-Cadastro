@@ -10,8 +10,8 @@ public class MainInterface extends JFrame {
 
     public MainInterface(){
         setContentPane(section1);
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(500, 400);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
 
@@ -27,6 +27,8 @@ public class MainInterface extends JFrame {
                 new Login();
             }
         });
+        cadastrarSeButton.addActionListener(e -> new Cadastro());
+        entrarButton.addActionListener(e -> new Login());
     }
     public static void main(String[] args) {
         new MainInterface();

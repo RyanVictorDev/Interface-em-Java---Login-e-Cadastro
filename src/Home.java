@@ -10,12 +10,12 @@ public class Home extends JFrame {
     private JToolBar navToolBar;
     private JLabel Titulo;
     private JLabel BoasVindas;
-    private JButton button1;
+    private JButton publicarLivro;
 
-    public Home() {
+    public Home(String nomeUsuario) {
         setContentPane(homePanel);
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(500, 400);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
 
@@ -25,23 +25,26 @@ public class Home extends JFrame {
         JMenuItem menuItem2 = new JMenuItem("Biblioteca Pessoal");
         JMenuItem menuItem3 = new JMenuItem("Sair");
 
-
         // Adicionar os itens de menu ao JPopupMenu
         popupMenu.add(menuItem1);
         popupMenu.add(menuItem2);
         popupMenu.add(menuItem3);
 
+        BoasVindas.setText("Olá, " + nomeUsuario);
+
         menuItem1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Home();
+                new Home(nomeUsuario);
+                dispose();
             }
         });
 
         menuItem2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new BibliotecaPessoal();
+                new BibliotecaPessoal(nomeUsuario);
+                dispose();
             }
         });
 
@@ -49,6 +52,7 @@ public class Home extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new MainInterface();
+                dispose();
             }
         });
 
@@ -59,7 +63,15 @@ public class Home extends JFrame {
                     popupMenu.show(opcoes, e.getX(), e.getY());
                 }
             }
+        });
 
+
+        publicarLivro.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new UploadLivro(nomeUsuario);
+                dispose();
+            }
         });
     }
 }

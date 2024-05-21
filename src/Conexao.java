@@ -1,32 +1,64 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Conexao {
-    public static void main(String[] args) {
-        Connection conexao = null;
+    private static final String URL = "jdbc:postgresql://localhost/saraijavas";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "admin";
+
+    public static Connection conectar() {
         try {
             Class.forName("org.postgresql.Driver");
-            conexao = DriverManager.getConnection("jdbc:postgresql://localhost/saraijavas", "postgres","832450");
-            ResultSet rsCliente = conexao.createStatement().executeQuery("SELECT * FROM USUARIOS");
-            while (rsCliente.next()){
-                System.out.println("Nome: " + rsCliente.getString("nome"));
-            }
-
-        } catch (ClassNotFoundException ex) {
-            throw new RuntimeException("Driver do banco de dados não localizado.");
+            return DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (ClassNotFoundException | SQLException ex) {
+            throw new RuntimeException("Erro ao conectar ao banco de dados: " + ex.getMessage());
         }
-        catch (SQLException ex) {
-            throw new RuntimeException("Ocorreu um erro ao acessar o banco de dados: " + ex.getMessage());
-        } finally {
-            if ( conexao != null){
-                try {
-                    conexao.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+    }
+
+    public static void fecharConexao(Connection conexao) {
+        if (conexao != null) {
+            try {
+                conexao.close();
+            } catch (SQLException ex) {
+                throw new RuntimeException("Erro ao fechar conexão com o banco de dados: " + ex.getMessage());
             }
         }
     }
+
+    public static void executarUpdate(String sql) {
+        Connection conexao = conectar();
+        try {
+            Statement statement = conexao.createStatement();
+            statement.executeUpdate(sql);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao executar instrução SQL: " + ex.getMessage());
+        } finally {
+            fecharConexao(conexao);
+        }
+    }
+
+    public static void adicionarLivro(int idUsuario, String titulo, String autor, String genero) {
+        String sql = "INSERT INTO livros (id_usuario, titulo, autor, genero) VALUES (?, ?, ?, ?)";
+        try (Connection conexao = conectar();
+             PreparedStatement statement = conexao.prepareStatement(sql)) {
+            statement.setInt(1, idUsuario);
+            statement.setString(2, titulo);
+            statement.setString(3, autor);
+            statement.setString(4, genero);
+            statement.executeUpdate();
+            System.out.println("Livro adicionado com sucesso.");
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao adicionar livro: " + ex.getMessage());
+        }
+    }
+
+    public static ResultSet executarConsulta(String sql) {
+        Connection conexao = conectar();
+        try {
+            Statement statement = conexao.createStatement();
+            return statement.executeQuery(sql);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao executar consulta SQL: " + ex.getMessage());
+        }
+    }
+
 }
