@@ -32,7 +32,7 @@ public class Login extends JFrame {
                     if (verificarCredenciais(conexao, nome, senha)) {
                         JOptionPane.showMessageDialog(Login.this, "Login bem-sucedido!");
                         new Home(nome);
-                        dispose();
+                        dispose(); // Fecha a janela atual
                     } else {
                         JOptionPane.showMessageDialog(Login.this, "Credenciais inválidas. Tente novamente.");
                     }

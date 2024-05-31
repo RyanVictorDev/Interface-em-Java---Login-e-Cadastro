@@ -19,13 +19,11 @@ public class Home extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        // Criar um JPopupMenu
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem menuItem1 = new JMenuItem("Home");
         JMenuItem menuItem2 = new JMenuItem("Biblioteca Pessoal");
         JMenuItem menuItem3 = new JMenuItem("Sair");
 
-        // Adicionar os itens de menu ao JPopupMenu
         popupMenu.add(menuItem1);
         popupMenu.add(menuItem2);
         popupMenu.add(menuItem3);
@@ -56,7 +54,7 @@ public class Home extends JFrame {
             }
         });
 
-        // Adicionar um ouvinte de mouse à JLabel "opcoes" para exibir o menu pop-up quando o botão direito do mouse for clicado
+
         opcoes.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (SwingUtilities.isRightMouseButton(e)) {
@@ -64,7 +62,6 @@ public class Home extends JFrame {
                 }
             }
         });
-
 
         publicarLivro.addActionListener(new ActionListener() {
             @Override

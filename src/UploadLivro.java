@@ -3,8 +3,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-public class UploadLivro  extends JFrame{
+public class UploadLivro extends JFrame {
 
     private JPanel UploadPanel;
     private JLabel Titulo;
@@ -18,14 +21,14 @@ public class UploadLivro  extends JFrame{
     private JTextField autorInput;
     private JTextField categoriaInput;
     private JTextField precoInput;
+    private JButton uploadButton; // Adicionei um botão para upload
 
-    public UploadLivro(String nomeUsuario){
+    public UploadLivro(String nomeUsuario) {
         setContentPane(UploadPanel);
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
-
 
         // Criar um JPopupMenu
         JPopupMenu popupMenu = new JPopupMenu();
@@ -62,7 +65,6 @@ public class UploadLivro  extends JFrame{
             }
         });
 
-        // Adicionar um ouvinte de mouse à JLabel "opcoes" para exibir o menu pop-up quando o botão direito do mouse for clicado
         opcoes.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (SwingUtilities.isRightMouseButton(e)) {
@@ -70,5 +72,45 @@ public class UploadLivro  extends JFrame{
                 }
             }
         });
+
+        // Adicionando funcionalidade ao botão de upload
+        uploadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String titulo = tituloInput.getText();
+                String autor = autorInput.getText();
+                String categoria = categoriaInput.getText();
+                String preco = precoInput.getText();
+
+                // Validar entrada
+                if (titulo.isEmpty() || autor.isEmpty() || categoria.isEmpty() || preco.isEmpty()) {
+                    JOptionPane.showMessageDialog(UploadLivro.this, "Todos os campos devem ser preenchidos!");
+                    return;
+                }
+
+                // Inserir no banco de dados
+                Connection conexao = null;
+                try {
+                    conexao = Conexao.conectar();
+                    cadastrarLivro(conexao, titulo, autor, categoria, preco, nomeUsuario);
+                    JOptionPane.showMessageDialog(UploadLivro.this, "Livro cadastrado com sucesso!");
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(UploadLivro.this, "Erro ao cadastrar livro: " + ex.getMessage());
+                } finally {
+                    Conexao.fecharConexao(conexao);
+                }
+            }
+        });
+    }
+
+    private void cadastrarLivro(Connection conexao, String titulo, String autor, String categoria, String preco, String nomeUsuario) throws SQLException {
+        String sql = "INSERT INTO livros (titulo, autor, categoria, preco, id_usuario) VALUES (?, ?, ?, ?, (SELECT id FROM usuario WHERE nome = ?))";
+        PreparedStatement statement = conexao.prepareStatement(sql);
+        statement.setString(1, titulo);
+        statement.setString(2, autor);
+        statement.setString(3, categoria);
+        statement.setString(4, preco);
+        statement.setString(5, nomeUsuario);
+        statement.executeUpdate();
     }
 }

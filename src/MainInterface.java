@@ -19,17 +19,18 @@ public class MainInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Cadastro();
-            } 
+                dispose();
+            }
         });
         entrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Login();
+                dispose();
             }
         });
-        cadastrarSeButton.addActionListener(e -> new Cadastro());
-        entrarButton.addActionListener(e -> new Login());
     }
+
     public static void main(String[] args) {
         new MainInterface();
     }
