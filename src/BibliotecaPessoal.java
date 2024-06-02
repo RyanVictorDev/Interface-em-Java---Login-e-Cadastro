@@ -65,7 +65,4 @@ public class BibliotecaPessoal extends JFrame{
         });
     }
 
-    private void createUIComponents() {
-        image = new JLabel(new ImageIcon("jeojeo.jpg"));
-    }
 }
