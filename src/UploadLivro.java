@@ -21,7 +21,7 @@ public class UploadLivro extends JFrame {
     private JTextField autorInput;
     private JTextField categoriaInput;
     private JTextField precoInput;
-    private JButton uploadButton; // Adicionei um botão para upload
+    private JButton uploadButton;
 
     public UploadLivro(String nomeUsuario) {
         setContentPane(UploadPanel);

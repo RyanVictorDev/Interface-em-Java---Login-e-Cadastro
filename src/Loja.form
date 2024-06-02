@@ -37,7 +37,7 @@
           </component>
         </children>
       </toolbar>
-      <component id="ef731" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="ef731" class="javax.swing.JTextField" binding="campoPesquisa">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -66,60 +66,16 @@
           <text value="Pesquise aqui!"/>
         </properties>
       </component>
-      <toolbar id="881a6">
+      <component id="3aee" class="javax.swing.JTable" binding="tabelaLivros">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="-1" height="20"/>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
           </grid>
         </constraints>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <hspacer id="a2751">
-            <constraints/>
-          </hspacer>
-          <component id="fe29a" class="javax.swing.JLabel">
-            <constraints/>
-            <properties>
-              <foreground color="-16777216"/>
-              <text value="NomeLivro"/>
-            </properties>
-          </component>
-          <hspacer id="3a1ed">
-            <constraints/>
-          </hspacer>
-          <component id="e1136" class="javax.swing.JLabel">
-            <constraints/>
-            <properties>
-              <foreground color="-16777216"/>
-              <text value="Categoria"/>
-            </properties>
-          </component>
-          <hspacer id="7843d">
-            <constraints/>
-          </hspacer>
-          <component id="27616" class="javax.swing.JLabel">
-            <constraints/>
-            <properties>
-              <foreground color="-16777216"/>
-              <text value="Autor"/>
-            </properties>
-          </component>
-          <hspacer id="4602f">
-            <constraints/>
-          </hspacer>
-          <component id="7223d" class="javax.swing.JLabel">
-            <constraints/>
-            <properties>
-              <foreground color="-16777216"/>
-              <text value="Preço"/>
-            </properties>
-          </component>
-          <hspacer id="3eaf">
-            <constraints/>
-          </hspacer>
-        </children>
-      </toolbar>
+        <properties>
+          <autoCreateRowSorter value="true"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
