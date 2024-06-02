@@ -4,32 +4,30 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Home extends JFrame {
-    private JPanel homePanel;
-    private JLabel opcoes;
-    private JToolBar navToolBar;
+public class Loja extends JFrame {
+    private JPanel section;
     private JLabel Titulo;
-    private JLabel BoasVindas;
-    private JButton publicarLivro;
-    private JButton alugarLivro;
+    private JLabel opcoes;
+    private JTextField textField1;
 
-    public Home(String nomeUsuario) {
-        setContentPane(homePanel);
+    public Loja(String nomeUsuario){
+        setContentPane(section);
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
 
+        // Criar um JPopupMenu
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem menuItem1 = new JMenuItem("Home");
         JMenuItem menuItem2 = new JMenuItem("Biblioteca Pessoal");
         JMenuItem menuItem3 = new JMenuItem("Sair");
 
+
+        // Adicionar os itens de menu ao JPopupMenu
         popupMenu.add(menuItem1);
         popupMenu.add(menuItem2);
         popupMenu.add(menuItem3);
-
-        BoasVindas.setText("Olá, " + nomeUsuario);
 
         menuItem1.addActionListener(new ActionListener() {
             @Override
@@ -55,28 +53,14 @@ public class Home extends JFrame {
             }
         });
 
-
+        // Adicionar um ouvinte de mouse à JLabel "opcoes" para exibir o menu pop-up quando o botão direito do mouse for clicado
         opcoes.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (SwingUtilities.isRightMouseButton(e)) {
                     popupMenu.show(opcoes, e.getX(), e.getY());
                 }
             }
-        });
 
-        publicarLivro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new UploadLivro(nomeUsuario);
-                dispose();
-            }
-        });
-        alugarLivro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Loja(nomeUsuario);
-                dispose();
-            }
         });
     }
 }
