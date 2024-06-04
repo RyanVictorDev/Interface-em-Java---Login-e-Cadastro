@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MainInterface extends JFrame {
 
@@ -15,19 +13,13 @@ public class MainInterface extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        cadastrarSeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Cadastro();
-                dispose();
-            }
+        cadastrarSeButton.addActionListener(e -> {
+            new Cadastro();
+            dispose();
         });
-        entrarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Login();
-                dispose();
-            }
+        entrarButton.addActionListener(e -> {
+            new Login();
+            dispose();
         });
     }
 
