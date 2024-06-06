@@ -129,7 +129,7 @@ public class Loja extends JFrame {
         Connection conexao = null;
         try {
             conexao = Conexao.conectar();
-            String sql = "SELECT id, titulo, autor, preco, categoria FROM livros";
+            String sql = "SELECT id, titulo, autor, preco, categoria FROM livros WHERE id_usuario_alugado IS NULL";
             PreparedStatement statement = conexao.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
 
@@ -149,6 +149,7 @@ public class Loja extends JFrame {
             Conexao.fecharConexao(conexao);
         }
     }
+
 
     private void pesquisarLivros(String termoPesquisa) {
         Connection conexao = null;
