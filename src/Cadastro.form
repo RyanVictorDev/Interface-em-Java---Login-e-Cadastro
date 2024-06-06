@@ -14,6 +14,7 @@
         </constraints>
         <properties>
           <font name="Monospaced" size="28" style="1"/>
+          <foreground color="-3374812"/>
           <text value="Boas Vindas!"/>
         </properties>
       </component>

@@ -8,20 +8,14 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="87fa8" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <font name="Monospaced" size="28" style="1"/>
-          <text value="Seja bem vindo!"/>
-        </properties>
-      </component>
       <component id="42807" class="javax.swing.JLabel">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="2" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="143" height="10"/>
+          </grid>
         </constraints>
         <properties>
+          <font size="20"/>
           <text value="Novo por aqui?"/>
         </properties>
       </component>
@@ -33,20 +27,33 @@
           <text value="Cadastrar-se"/>
         </properties>
       </component>
-      <component id="411d3" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Já passou por aqui?"/>
-        </properties>
-      </component>
       <component id="5a8db" class="javax.swing.JButton" binding="entrarButton" default-binding="true">
         <constraints>
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Entrar"/>
+        </properties>
+      </component>
+      <component id="411d3" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font size="20"/>
+          <text value="Já passou por aqui?"/>
+        </properties>
+      </component>
+      <component id="87fa8" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="255" height="135"/>
+          </grid>
+        </constraints>
+        <properties>
+          <font name="Monospaced" size="28" style="1"/>
+          <foreground color="-3374812"/>
+          <text value="Seja bem vindo!"/>
         </properties>
       </component>
     </children>

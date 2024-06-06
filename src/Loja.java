@@ -26,23 +26,10 @@ public class Loja extends JFrame {
 
         // Configurar JFrame
         setContentPane(section);
-        setSize(1000, 1000);
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
-
-        // Inicializar a tabela e seu modelo
-        tabelaLivrosModel = new DefaultTableModel(new Object[]{"ID", "Título", "Autor", "Preço", "Categoria"}, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                // Tornar todas as células não editáveis
-                return false;
-            }
-        };
-        tabelaLivros.setModel(tabelaLivrosModel);
-
-        // Ocultar a coluna ID da tabela
-        tabelaLivros.removeColumn(tabelaLivros.getColumnModel().getColumn(0));
 
         // Criar um JPopupMenu
         JPopupMenu popupMenu = new JPopupMenu();
@@ -88,6 +75,20 @@ public class Loja extends JFrame {
                 }
             }
         });
+
+        // Inicializar a tabela e seu modelo
+        tabelaLivrosModel = new DefaultTableModel(new Object[]{"ID", "Título", "Autor", "Preço", "Categoria"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Tornar todas as células não editáveis
+                return false;
+            }
+        };
+        tabelaLivros.setModel(tabelaLivrosModel);
+
+        // Ocultar a coluna ID da tabela
+        tabelaLivros.removeColumn(tabelaLivros.getColumnModel().getColumn(0));
+
 
         // Adicionar ActionListener para o campo de pesquisa
         campoPesquisa.addActionListener(new ActionListener() {
