@@ -6,13 +6,13 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.*;
+import java.util.Calendar;
+import java.util.Date;
 
 public class ClienteLoja extends JFrame {
     private JPanel section;
@@ -257,6 +257,9 @@ public class ClienteLoja extends JFrame {
                     idTransacao = resultSetTransacao.getInt(1);
                 }
 
+                // Obter a data atual
+                Date dataTransacao = Calendar.getInstance().getTime();
+
                 // Gerar o nome do arquivo com o ID da transação
                 String nomeArquivo = "NotaFiscal" + idTransacao + ".pdf";
 
@@ -265,8 +268,9 @@ public class ClienteLoja extends JFrame {
                     PdfWriter.getInstance(document, new FileOutputStream(nomeArquivo));
                     document.open();
                     document.add(new Paragraph("Nota Fiscal"));
+                    document.add(new Paragraph("Data da Transação: " + dataTransacao));
                     document.add(new Paragraph("Nome do Usuário: " + nomeUsuario));
-                    document.add(new Paragraph("ID do Objs.Livro: " + idLivro));
+                    document.add(new Paragraph("ID do Objeto Livro: " + idLivro));
                     document.add(new Paragraph("Título: " + titulo));
                     document.add(new Paragraph("Autor: " + autor));
                     document.add(new Paragraph("Preço: " + preco));
