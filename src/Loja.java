@@ -1,13 +1,17 @@
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.sql.*;
 
 public class Loja extends JFrame {
     private JPanel section;
@@ -89,7 +93,6 @@ public class Loja extends JFrame {
         // Ocultar a coluna ID da tabela
         tabelaLivros.removeColumn(tabelaLivros.getColumnModel().getColumn(0));
 
-
         // Adicionar ActionListener para o campo de pesquisa
         campoPesquisa.addActionListener(new ActionListener() {
             @Override
@@ -150,7 +153,6 @@ public class Loja extends JFrame {
         }
     }
 
-
     private void pesquisarLivros(String termoPesquisa) {
         Connection conexao = null;
         try {
@@ -181,7 +183,6 @@ public class Loja extends JFrame {
         Connection conexao = null;
         try {
             conexao = Conexao.conectar();
-            // Supondo que você tenha uma forma de obter o ID do usuário pelo nome de usuário
             int idUsuario = obterIdUsuario(nomeUsuario);
 
             String sql = "UPDATE livros SET id_usuario_alugado = ? WHERE id = ?";
@@ -193,6 +194,7 @@ public class Loja extends JFrame {
             if (rowsUpdated > 0) {
                 JOptionPane.showMessageDialog(this, "Livro alugado com sucesso!");
                 carregarLivrosDisponiveis(); // Atualizar a lista de livros
+                gerarNotaFiscal(idLivro, nomeUsuario); // Gerar nota fiscal
             } else {
                 JOptionPane.showMessageDialog(this, "Falha ao alugar o livro.");
             }
@@ -204,9 +206,6 @@ public class Loja extends JFrame {
     }
 
     private int obterIdUsuario(String nomeUsuario) {
-        // Implementar a lógica para obter o ID do usuário a partir do nome de usuário
-        // Esta função deve consultar o banco de dados e retornar o ID correspondente
-        // Exemplo:
         Connection conexao = null;
         try {
             conexao = Conexao.conectar();
@@ -227,4 +226,59 @@ public class Loja extends JFrame {
             Conexao.fecharConexao(conexao);
         }
     }
+
+    private void gerarNotaFiscal(int idLivro, String nomeUsuario) {
+        Connection conexao = null;
+        try {
+            conexao = Conexao.conectar();
+            String sqlLivro = "SELECT titulo, autor, preco FROM livros WHERE id = ?";
+            PreparedStatement statementLivro = conexao.prepareStatement(sqlLivro);
+            statementLivro.setInt(1, idLivro);
+            ResultSet resultSetLivro = statementLivro.executeQuery();
+
+            if (resultSetLivro.next()) {
+                String titulo = resultSetLivro.getString("titulo");
+                String autor = resultSetLivro.getString("autor");
+                double preco = resultSetLivro.getDouble("preco");
+
+                // Inserir a transação e obter o ID da transação
+                String sqlTransacao = "INSERT INTO transacoes (id_livro, nome_usuario, preco) VALUES (?, ?, ?)";
+                PreparedStatement statementTransacao = conexao.prepareStatement(sqlTransacao, Statement.RETURN_GENERATED_KEYS);
+                statementTransacao.setInt(1, idLivro);
+                statementTransacao.setString(2, nomeUsuario);
+                statementTransacao.setDouble(3, preco);
+                statementTransacao.executeUpdate();
+                ResultSet resultSetTransacao = statementTransacao.getGeneratedKeys();
+                int idTransacao = 0;
+                if (resultSetTransacao.next()) {
+                    idTransacao = resultSetTransacao.getInt(1);
+                }
+
+                // Gerar o nome do arquivo com o ID da transação
+                String nomeArquivo = "NotaFiscal" + idTransacao + ".pdf";
+
+                Document document = new Document();
+                try {
+                    PdfWriter.getInstance(document, new FileOutputStream(nomeArquivo));
+                    document.open();
+                    document.add(new Paragraph("Nota Fiscal"));
+                    document.add(new Paragraph("Nome do Usuário: " + nomeUsuario));
+                    document.add(new Paragraph("ID do Livro: " + idLivro));
+                    document.add(new Paragraph("Título: " + titulo));
+                    document.add(new Paragraph("Autor: " + autor));
+                    document.add(new Paragraph("Preço: " + preco));
+                    document.add(new Paragraph("ID da Transação: " + idTransacao));
+                    document.close();
+                    JOptionPane.showMessageDialog(this, "Nota fiscal gerada com sucesso!");
+                } catch (FileNotFoundException | DocumentException e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao gerar nota fiscal: " + e.getMessage());
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao gerar nota fiscal: " + ex.getMessage());
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+    }
+
 }
