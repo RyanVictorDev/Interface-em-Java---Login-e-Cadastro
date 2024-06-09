@@ -1,9 +1,11 @@
+package Objs;
+
 import java.sql.*;
 
 public class Conexao {
     private static final String URL = "jdbc:postgresql://localhost/saraijavas";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "admin";
+    private static final String PASSWORD = "832450";
 
     public static Connection conectar() {
         try {
@@ -45,7 +47,7 @@ public class Conexao {
             statement.setString(3, autor);
             statement.setString(4, genero);
             statement.executeUpdate();
-            System.out.println("Livro adicionado com sucesso.");
+            System.out.println("Objs.Livro adicionado com sucesso.");
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao adicionar livro: " + ex.getMessage());
         }

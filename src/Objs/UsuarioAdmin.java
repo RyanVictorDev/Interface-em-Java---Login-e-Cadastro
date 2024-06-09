@@ -1,7 +1,9 @@
+package Objs;
+
 public class UsuarioAdmin extends Usuario {
 
     public UsuarioAdmin(String nome, String password) {
-        super(nome, password);
+        super(nome, password, true); // Definindo isAdmin como true para um admin
     }
 
     public void deletarLivro(int idLivro) {
@@ -10,7 +12,6 @@ public class UsuarioAdmin extends Usuario {
         System.out.println("Livro deletado do sistema.");
     }
 
-    // Método para deletar um UsuarioCliente do sistema
     public void deletarUsuarioCliente(int idUsuarioCliente) {
         String sql = "DELETE FROM usuarios WHERE id = " + idUsuarioCliente;
         Conexao.executarUpdate(sql);

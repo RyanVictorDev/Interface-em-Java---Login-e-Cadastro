@@ -1,3 +1,5 @@
+import Objs.Conexao;
+
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -39,7 +41,7 @@ public class Cadastro extends JFrame {
 
                 cadastrarNovoUsuario(conexao, nome, senha);
                 JOptionPane.showMessageDialog(Cadastro.this, "Usuário cadastrado com sucesso!");
-                new Home(nome);
+                new ClienteHome(nome, false);
                 dispose();
             } catch (SQLException ex) {
                 throw new RuntimeException("Erro ao cadastrar novo usuário: " + ex.getMessage());

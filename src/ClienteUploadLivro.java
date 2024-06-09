@@ -1,3 +1,5 @@
+import Objs.Conexao;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,7 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class UploadLivro extends JFrame {
+public class ClienteUploadLivro extends JFrame {
 
     private JPanel UploadPanel;
     private JLabel Titulo;
@@ -23,7 +25,7 @@ public class UploadLivro extends JFrame {
     private JTextField precoInput;
     private JButton uploadButton;
 
-    public UploadLivro(String nomeUsuario) {
+    public ClienteUploadLivro(String nomeUsuario) {
         setContentPane(UploadPanel);
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -45,7 +47,7 @@ public class UploadLivro extends JFrame {
         menuItem1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Home(nomeUsuario);
+                new ClienteHome(nomeUsuario,false);
                 dispose();
             }
         });
@@ -53,7 +55,7 @@ public class UploadLivro extends JFrame {
         menuItem2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new BibliotecaPessoal(nomeUsuario);
+                new BibliotecaBase(nomeUsuario,false);
                 dispose();
             }
         });
@@ -61,7 +63,7 @@ public class UploadLivro extends JFrame {
         menuItem3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Deposito(nomeUsuario);
+                new ClienteDeposito(nomeUsuario);
                 dispose();
             }
         });
@@ -93,7 +95,7 @@ public class UploadLivro extends JFrame {
 
                 // Validar entrada
                 if (titulo.isEmpty() || autor.isEmpty() || categoria.isEmpty() || preco.isEmpty()) {
-                    JOptionPane.showMessageDialog(UploadLivro.this, "Todos os campos devem ser preenchidos!");
+                    JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Todos os campos devem ser preenchidos!");
                     return;
                 }
 
@@ -102,9 +104,9 @@ public class UploadLivro extends JFrame {
                 try {
                     conexao = Conexao.conectar();
                     cadastrarLivro(conexao, titulo, autor, categoria, preco, nomeUsuario);
-                    JOptionPane.showMessageDialog(UploadLivro.this, "Livro cadastrado com sucesso!");
+                    JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Objs.Livro cadastrado com sucesso!");
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(UploadLivro.this, "Erro ao cadastrar livro: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Erro ao cadastrar livro: " + ex.getMessage());
                 } finally {
                     Conexao.fecharConexao(conexao);
                 }

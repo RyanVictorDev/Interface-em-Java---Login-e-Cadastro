@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ApagarUser extends JFrame{
+public class AdminApagarUser extends JFrame{
     private JLabel Titulo;
     private JLabel opcoes;
     private JPanel section;
@@ -11,7 +11,7 @@ public class ApagarUser extends JFrame{
     private JButton ButaoAlugar;
     private String nomeUsuario;
 
-    public ApagarUser(String nomeUsuario){
+    public AdminApagarUser(String nomeUsuario){
         this.nomeUsuario = nomeUsuario;
         setContentPane(section);
         setSize(500, 400);
@@ -34,7 +34,7 @@ public class ApagarUser extends JFrame{
         menuItem1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Home(nomeUsuario);
+                new ClienteHome(nomeUsuario, true);
                 dispose();
             }
         });
@@ -42,7 +42,7 @@ public class ApagarUser extends JFrame{
         menuItem2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new BibliotecaPessoal(nomeUsuario);
+                new BibliotecaBase(nomeUsuario,true);
                 dispose();
             }
         });
@@ -50,7 +50,7 @@ public class ApagarUser extends JFrame{
         menuItem3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Deposito(nomeUsuario);
+                new ClienteDeposito(nomeUsuario);
                 dispose();
             }
         });

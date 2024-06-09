@@ -1,3 +1,4 @@
+import Objs.Conexao;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -13,7 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.*;
 
-public class Loja extends JFrame {
+public class ClienteLoja extends JFrame {
     private JPanel section;
     private JLabel Titulo;
     private JLabel opcoes;
@@ -25,7 +26,7 @@ public class Loja extends JFrame {
     private String nomeUsuario;
     private int idLivroSelecionado = -1; // Variável para armazenar o ID do livro selecionado
 
-    public Loja(String nomeUsuario) {
+    public ClienteLoja(String nomeUsuario) {
         this.nomeUsuario = nomeUsuario;
 
         // Configurar JFrame
@@ -47,36 +48,24 @@ public class Loja extends JFrame {
         popupMenu.add(menuItem4);
 
 
-        menuItem1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Home(nomeUsuario);
-                dispose();
-            }
+        menuItem1.addActionListener(e -> {
+            new ClienteHome(nomeUsuario,false);
+            dispose();
         });
 
-        menuItem2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new BibliotecaPessoal(nomeUsuario);
-                dispose();
-            }
+        menuItem2.addActionListener(e -> {
+            new BibliotecaBase(nomeUsuario,false);
+            dispose();
         });
 
-        menuItem3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Deposito(nomeUsuario);
-                dispose();
-            }
+        menuItem3.addActionListener(e -> {
+            new ClienteDeposito(nomeUsuario);
+            dispose();
         });
 
-        menuItem4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new MainInterface();
-                dispose();
-            }
+        menuItem4.addActionListener(e -> {
+            new MainInterface();
+            dispose();
         });
 
         // Adicionar um ouvinte de mouse à JLabel "opcoes" para exibir o menu pop-up quando o botão direito do mouse for clicado
@@ -102,12 +91,9 @@ public class Loja extends JFrame {
         tabelaLivros.removeColumn(tabelaLivros.getColumnModel().getColumn(0));
 
         // Adicionar ActionListener para o campo de pesquisa
-        campoPesquisa.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String termoPesquisa = campoPesquisa.getText();
-                pesquisarLivros(termoPesquisa);
-            }
+        campoPesquisa.addActionListener(e -> {
+            String termoPesquisa = campoPesquisa.getText();
+            pesquisarLivros(termoPesquisa);
         });
 
         // Adicionar um ouvinte de mouse à tabela para capturar a seleção do livro
@@ -122,14 +108,11 @@ public class Loja extends JFrame {
         });
 
         // Adicionar ActionListener ao botão "ButaoAlugar"
-        ButaoAlugar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (idLivroSelecionado != -1) {
-                    alugarLivro(idLivroSelecionado, nomeUsuario);
-                } else {
-                    JOptionPane.showMessageDialog(Loja.this, "Por favor, selecione um livro para alugar.");
-                }
+        ButaoAlugar.addActionListener(e -> {
+            if (idLivroSelecionado != -1) {
+                alugarLivro(idLivroSelecionado, nomeUsuario);
+            } else {
+                JOptionPane.showMessageDialog(ClienteLoja.this, "Por favor, selecione um livro para alugar.");
             }
         });
 
@@ -200,7 +183,7 @@ public class Loja extends JFrame {
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
-                JOptionPane.showMessageDialog(this, "Livro alugado com sucesso!");
+                JOptionPane.showMessageDialog(this, "Objs.Livro alugado com sucesso!");
                 carregarLivrosDisponiveis(); // Atualizar a lista de livros
                 gerarNotaFiscal(idLivro, nomeUsuario); // Gerar nota fiscal
             } else {
@@ -271,7 +254,7 @@ public class Loja extends JFrame {
                     document.open();
                     document.add(new Paragraph("Nota Fiscal"));
                     document.add(new Paragraph("Nome do Usuário: " + nomeUsuario));
-                    document.add(new Paragraph("ID do Livro: " + idLivro));
+                    document.add(new Paragraph("ID do Objs.Livro: " + idLivro));
                     document.add(new Paragraph("Título: " + titulo));
                     document.add(new Paragraph("Autor: " + autor));
                     document.add(new Paragraph("Preço: " + preco));
