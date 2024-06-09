@@ -4,18 +4,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Home extends JFrame {
-    private JPanel homePanel;
-    private JLabel opcoes;
-    private JToolBar navToolBar;
+public class Deposito extends JFrame{
     private JLabel Titulo;
-    private JLabel BoasVindas;
-    private JButton publicarLivro;
-    private JButton alugarLivro;
-    private JButton depositarDinheiro;
+    private JLabel opcoes;
+    private JPanel section;
+    private JTextField textField1;
+    private JButton confirmarButton;
+    private String nomeUsuario;
 
-    public Home(String nomeUsuario) {
-        setContentPane(homePanel);
+    public Deposito(String nomeUsuario){
+        this.nomeUsuario = nomeUsuario;
+        setContentPane(section);
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -32,8 +31,6 @@ public class Home extends JFrame {
         popupMenu.add(menuItem3);
         popupMenu.add(menuItem4);
 
-
-        BoasVindas.setText("Olá, " + nomeUsuario);
 
         menuItem1.addActionListener(new ActionListener() {
             @Override
@@ -67,7 +64,7 @@ public class Home extends JFrame {
             }
         });
 
-
+        // Adicionar um ouvinte de mouse à JLabel "opcoes" para exibir o menu pop-up quando o botão direito do mouse for clicado
         opcoes.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (SwingUtilities.isRightMouseButton(e)) {
@@ -75,25 +72,10 @@ public class Home extends JFrame {
                 }
             }
         });
-
-        publicarLivro.addActionListener(new ActionListener() {
+        confirmarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new UploadLivro(nomeUsuario);
-                dispose();
-            }
-        });
-        alugarLivro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Loja(nomeUsuario);
-                dispose();
-            }
-        });
-        depositarDinheiro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Deposito(nomeUsuario);
+                new Home(nomeUsuario);
                 dispose();
             }
         });

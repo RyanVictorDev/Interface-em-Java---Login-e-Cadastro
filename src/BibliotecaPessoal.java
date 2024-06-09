@@ -29,18 +29,18 @@ public class BibliotecaPessoal extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        // Criar um JPopupMenu
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem menuItem1 = new JMenuItem("Home");
         JMenuItem menuItem2 = new JMenuItem("Biblioteca Pessoal");
-        JMenuItem menuItem3 = new JMenuItem("Sair");
+        JMenuItem menuItem3 = new JMenuItem("Saldo: R$");
+        JMenuItem menuItem4 = new JMenuItem("Sair");
 
-        // Adicionar os itens de menu ao JPopupMenu
         popupMenu.add(menuItem1);
         popupMenu.add(menuItem2);
         popupMenu.add(menuItem3);
+        popupMenu.add(menuItem4);
 
-        // Adicionar ActionListeners aos itens de menu
+
         menuItem1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,6 +58,14 @@ public class BibliotecaPessoal extends JFrame {
         });
 
         menuItem3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Deposito(nomeUsuario);
+                dispose();
+            }
+        });
+
+        menuItem4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new MainInterface();

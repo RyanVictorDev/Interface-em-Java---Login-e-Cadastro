@@ -1,21 +1,19 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-public class Home extends JFrame {
-    private JPanel homePanel;
-    private JLabel opcoes;
-    private JToolBar navToolBar;
+public class ApagarUser extends JFrame{
     private JLabel Titulo;
-    private JLabel BoasVindas;
-    private JButton publicarLivro;
-    private JButton alugarLivro;
-    private JButton depositarDinheiro;
+    private JLabel opcoes;
+    private JPanel section;
+    private JTextField campoPesquisa;
+    private JTable tabelaLivros;
+    private JButton ButaoAlugar;
+    private String nomeUsuario;
 
-    public Home(String nomeUsuario) {
-        setContentPane(homePanel);
+    public ApagarUser(String nomeUsuario){
+        this.nomeUsuario = nomeUsuario;
+        setContentPane(section);
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -32,8 +30,6 @@ public class Home extends JFrame {
         popupMenu.add(menuItem3);
         popupMenu.add(menuItem4);
 
-
-        BoasVindas.setText("Olá, " + nomeUsuario);
 
         menuItem1.addActionListener(new ActionListener() {
             @Override
@@ -63,37 +59,6 @@ public class Home extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new MainInterface();
-                dispose();
-            }
-        });
-
-
-        opcoes.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                if (SwingUtilities.isRightMouseButton(e)) {
-                    popupMenu.show(opcoes, e.getX(), e.getY());
-                }
-            }
-        });
-
-        publicarLivro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new UploadLivro(nomeUsuario);
-                dispose();
-            }
-        });
-        alugarLivro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Loja(nomeUsuario);
-                dispose();
-            }
-        });
-        depositarDinheiro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Deposito(nomeUsuario);
                 dispose();
             }
         });

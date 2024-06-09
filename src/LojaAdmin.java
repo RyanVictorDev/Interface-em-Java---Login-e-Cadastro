@@ -13,7 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.*;
 
-public class Loja extends JFrame {
+public class LojaAdmin extends JFrame {
     private JPanel section;
     private JLabel Titulo;
     private JLabel opcoes;
@@ -25,7 +25,7 @@ public class Loja extends JFrame {
     private String nomeUsuario;
     private int idLivroSelecionado = -1; // Variável para armazenar o ID do livro selecionado
 
-    public Loja(String nomeUsuario) {
+    public LojaAdmin(String nomeUsuario) {
         this.nomeUsuario = nomeUsuario;
 
         // Configurar JFrame
@@ -128,7 +128,7 @@ public class Loja extends JFrame {
                 if (idLivroSelecionado != -1) {
                     alugarLivro(idLivroSelecionado, nomeUsuario);
                 } else {
-                    JOptionPane.showMessageDialog(Loja.this, "Por favor, selecione um livro para alugar.");
+                    JOptionPane.showMessageDialog(LojaAdmin.this, "Por favor, selecione um livro para alugar.");
                 }
             }
         });
