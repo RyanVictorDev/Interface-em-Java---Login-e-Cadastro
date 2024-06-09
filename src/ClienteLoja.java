@@ -39,7 +39,7 @@ public class ClienteLoja extends JFrame {
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem menuItem1 = new JMenuItem("Home");
         JMenuItem menuItem2 = new JMenuItem("Biblioteca Pessoal");
-        JMenuItem menuItem3 = new JMenuItem("Saldo: R$");
+        JMenuItem menuItem3 = new JMenuItem("Saldo: R$ " + obterSaldoUsuario(nomeUsuario)); // Exibe o saldo atual
         JMenuItem menuItem4 = new JMenuItem("Sair");
 
         popupMenu.add(menuItem1);
@@ -174,6 +174,14 @@ public class ClienteLoja extends JFrame {
         Connection conexao = null;
         try {
             conexao = Conexao.conectar();
+            double saldoUsuario = obterSaldoUsuario(nomeUsuario); // Obter o saldo atual do usuário
+            double precoLivro = obterPrecoLivro(idLivro); // Obter o preço do livro selecionado
+
+            if (saldoUsuario < precoLivro) {
+                JOptionPane.showMessageDialog(this, "Saldo insuficiente para alugar o livro.");
+                return; // Não continue com a transação se o saldo for insuficiente
+            }
+
             int idUsuario = obterIdUsuario(nomeUsuario);
 
             String sql = "UPDATE livros SET id_usuario_alugado = ? WHERE id = ?";
@@ -183,7 +191,10 @@ public class ClienteLoja extends JFrame {
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
-                JOptionPane.showMessageDialog(this, "Objs.Livro alugado com sucesso!");
+                double novoSaldo = saldoUsuario - precoLivro; // Calcular o novo saldo do usuário
+                atualizarSaldoUsuario(nomeUsuario, novoSaldo); // Atualizar o saldo do usuário
+
+                JOptionPane.showMessageDialog(this, "Livro alugado com sucesso!");
                 carregarLivrosDisponiveis(); // Atualizar a lista de livros
                 gerarNotaFiscal(idLivro, nomeUsuario); // Gerar nota fiscal
             } else {
@@ -195,6 +206,7 @@ public class ClienteLoja extends JFrame {
             Conexao.fecharConexao(conexao);
         }
     }
+
 
     private int obterIdUsuario(String nomeUsuario) {
         Connection conexao = null;
@@ -267,6 +279,68 @@ public class ClienteLoja extends JFrame {
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Erro ao gerar nota fiscal: " + ex.getMessage());
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+    }
+
+    private double obterSaldoUsuario(String nomeUsuario) {
+        Connection conexao = null;
+        try {
+            conexao = Conexao.conectar();
+            String sql = "SELECT saldo FROM usuario WHERE nome = ?";
+            PreparedStatement statement = conexao.prepareStatement(sql);
+            statement.setString(1, nomeUsuario);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getDouble("saldo");
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuário não encontrado.");
+                return 0;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao obter saldo: " + ex.getMessage());
+            return 0;
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+    }
+
+    private double obterPrecoLivro(int idLivro) {
+        Connection conexao = null;
+        try {
+            conexao = Conexao.conectar();
+            String sql = "SELECT preco FROM livros WHERE id = ?";
+            PreparedStatement statement = conexao.prepareStatement(sql);
+            statement.setInt(1, idLivro);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getDouble("preco");
+            } else {
+                JOptionPane.showMessageDialog(this, "Livro não encontrado.");
+                return 0;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao obter preço do livro: " + ex.getMessage());
+            return 0;
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
+    }
+
+    private void atualizarSaldoUsuario(String nomeUsuario, double novoSaldo) {
+        Connection conexao = null;
+        try {
+            conexao = Conexao.conectar();
+            String sql = "UPDATE usuario SET saldo = ? WHERE nome = ?";
+            PreparedStatement statement = conexao.prepareStatement(sql);
+            statement.setDouble(1, novoSaldo);
+            statement.setString(2, nomeUsuario);
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar saldo: " + ex.getMessage());
         } finally {
             Conexao.fecharConexao(conexao);
         }

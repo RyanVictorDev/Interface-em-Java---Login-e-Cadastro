@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ClienteUploadLivro extends JFrame {
@@ -35,7 +36,7 @@ public class ClienteUploadLivro extends JFrame {
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem menuItem1 = new JMenuItem("Home");
         JMenuItem menuItem2 = new JMenuItem("Biblioteca Pessoal");
-        JMenuItem menuItem3 = new JMenuItem("Saldo: R$");
+        JMenuItem menuItem3 = new JMenuItem("Saldo: R$ " + obterSaldoUsuario(nomeUsuario)); // Exibe o saldo atual
         JMenuItem menuItem4 = new JMenuItem("Sair");
 
         popupMenu.add(menuItem1);
@@ -44,36 +45,24 @@ public class ClienteUploadLivro extends JFrame {
         popupMenu.add(menuItem4);
 
 
-        menuItem1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ClienteHome(nomeUsuario,false);
-                dispose();
-            }
+        menuItem1.addActionListener(e -> {
+            new ClienteHome(nomeUsuario,false);
+            dispose();
         });
 
-        menuItem2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new BibliotecaBase(nomeUsuario,false);
-                dispose();
-            }
+        menuItem2.addActionListener(e -> {
+            new BibliotecaBase(nomeUsuario,false);
+            dispose();
         });
 
-        menuItem3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ClienteDeposito(nomeUsuario);
-                dispose();
-            }
+        menuItem3.addActionListener(e -> {
+            new ClienteDeposito(nomeUsuario);
+            dispose();
         });
 
-        menuItem4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new MainInterface();
-                dispose();
-            }
+        menuItem4.addActionListener(e -> {
+            new MainInterface();
+            dispose();
         });
 
         opcoes.addMouseListener(new MouseAdapter() {
@@ -85,31 +74,28 @@ public class ClienteUploadLivro extends JFrame {
         });
 
         // Adicionando funcionalidade ao botão de upload
-        uploadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String titulo = tituloInput.getText();
-                String autor = autorInput.getText();
-                String categoria = categoriaInput.getText();
-                String preco = precoInput.getText();
+        uploadButton.addActionListener(e -> {
+            String titulo = tituloInput.getText();
+            String autor = autorInput.getText();
+            String categoria = categoriaInput.getText();
+            String preco = precoInput.getText();
 
-                // Validar entrada
-                if (titulo.isEmpty() || autor.isEmpty() || categoria.isEmpty() || preco.isEmpty()) {
-                    JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Todos os campos devem ser preenchidos!");
-                    return;
-                }
+            // Validar entrada
+            if (titulo.isEmpty() || autor.isEmpty() || categoria.isEmpty() || preco.isEmpty()) {
+                JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Todos os campos devem ser preenchidos!");
+                return;
+            }
 
-                // Inserir no banco de dados
-                Connection conexao = null;
-                try {
-                    conexao = Conexao.conectar();
-                    cadastrarLivro(conexao, titulo, autor, categoria, preco, nomeUsuario);
-                    JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Objs.Livro cadastrado com sucesso!");
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Erro ao cadastrar livro: " + ex.getMessage());
-                } finally {
-                    Conexao.fecharConexao(conexao);
-                }
+            // Inserir no banco de dados
+            Connection conexao = null;
+            try {
+                conexao = Conexao.conectar();
+                cadastrarLivro(conexao, titulo, autor, categoria, preco, nomeUsuario);
+                JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Objs.Livro cadastrado com sucesso!");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Erro ao cadastrar livro: " + ex.getMessage());
+            } finally {
+                Conexao.fecharConexao(conexao);
             }
         });
     }
@@ -123,5 +109,28 @@ public class ClienteUploadLivro extends JFrame {
         statement.setString(4, preco);
         statement.setString(5, nomeUsuario);
         statement.executeUpdate();
+    }
+
+    private double obterSaldoUsuario(String nomeUsuario) {
+        Connection conexao = null;
+        try {
+            conexao = Conexao.conectar();
+            String sql = "SELECT saldo FROM usuario WHERE nome = ?";
+            PreparedStatement statement = conexao.prepareStatement(sql);
+            statement.setString(1, nomeUsuario);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getDouble("saldo");
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuário não encontrado.");
+                return 0;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao obter saldo: " + ex.getMessage());
+            return 0;
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
     }
 }

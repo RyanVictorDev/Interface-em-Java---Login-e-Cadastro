@@ -1,7 +1,13 @@
+import Objs.Conexao;
+
 import javax.swing.*;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ClienteHome extends JFrame {
     private JPanel homePanel;
@@ -23,7 +29,7 @@ public class ClienteHome extends JFrame {
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem menuItem1 = new JMenuItem("Home");
         JMenuItem menuItem2 = new JMenuItem("Biblioteca Pessoal");
-        JMenuItem menuItem3 = new JMenuItem("Saldo: R$");
+        JMenuItem menuItem3 = new JMenuItem("Saldo: R$ " + obterSaldoUsuario(nomeUsuario)); // Exibe o saldo atual
         JMenuItem menuItem4 = new JMenuItem("Sair");
 
         popupMenu.add(menuItem1);
@@ -75,5 +81,28 @@ public class ClienteHome extends JFrame {
             new ClienteDeposito(nomeUsuario);
             dispose();
         });
+    }
+
+    private double obterSaldoUsuario(String nomeUsuario) {
+        Connection conexao = null;
+        try {
+            conexao = Conexao.conectar();
+            String sql = "SELECT saldo FROM usuario WHERE nome = ?";
+            PreparedStatement statement = conexao.prepareStatement(sql);
+            statement.setString(1, nomeUsuario);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getDouble("saldo");
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuário não encontrado.");
+                return 0;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao obter saldo: " + ex.getMessage());
+            return 0;
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
     }
 }
