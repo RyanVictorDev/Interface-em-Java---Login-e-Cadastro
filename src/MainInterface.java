@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-public class MainInterface extends JFrame {
+public class    MainInterface extends JFrame {
 
     private JPanel section1;
     private JButton cadastrarSeButton;

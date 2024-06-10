@@ -28,6 +28,7 @@ public class Cadastro extends JFrame {
 
             if (!senha.equals(confirmacaoSenha)) {
                 JOptionPane.showMessageDialog(Cadastro.this, "As senhas não coincidem!");
+                registrarLogEvento(null, nome, "cadastro", "falha", "127.0.0.1"); // Exemplo de IP estático
                 return;
             }
 
@@ -36,14 +37,17 @@ public class Cadastro extends JFrame {
                 conexao = Conexao.conectar();
                 if (verificarUsuarioExistente(conexao, nome)) {
                     JOptionPane.showMessageDialog(Cadastro.this, "Usuário já existe!");
+                    registrarLogEvento(conexao, nome, "cadastro", "falha", "127.0.0.1"); // Exemplo de IP estático
                     return;
                 }
 
                 cadastrarNovoUsuario(conexao, nome, senha);
                 JOptionPane.showMessageDialog(Cadastro.this, "Usuário cadastrado com sucesso!");
+                registrarLogEvento(conexao, nome, "cadastro", "sucesso", "127.0.0.1"); // Exemplo de IP estático
                 new ClienteHome(nome, false);
                 dispose();
             } catch (SQLException ex) {
+                registrarLogEvento(conexao, nome, "cadastro", "falha", "127.0.0.1"); // Exemplo de IP estático
                 throw new RuntimeException("Erro ao cadastrar novo usuário: " + ex.getMessage());
             } finally {
                 Conexao.fecharConexao(conexao);
@@ -65,5 +69,24 @@ public class Cadastro extends JFrame {
         statement.setString(1, nome);
         statement.setString(2, senha);
         statement.executeUpdate();
+    }
+
+    private void registrarLogEvento(Connection conexao, String nomeUsuario, String evento, String resultado, String ipUsuario) {
+        try {
+            String sql = "INSERT INTO log_eventos (id_usuario, evento, resultado, data_evento, ip_usuario) " +
+                    "VALUES ((SELECT id FROM usuario WHERE nome = ?), ?, ?, CURRENT_TIMESTAMP, ?)";
+            PreparedStatement statement = (conexao != null) ? conexao.prepareStatement(sql) : Conexao.conectar().prepareStatement(sql);
+            statement.setString(1, nomeUsuario);
+            statement.setString(2, evento);
+            statement.setString(3, resultado);
+            statement.setString(4, ipUsuario);
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao registrar log de evento: " + ex.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(Cadastro::new);
     }
 }
