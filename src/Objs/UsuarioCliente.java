@@ -64,7 +64,7 @@ public class UsuarioCliente extends Usuario {
     }
 
     public ResultSet listarLivros(Connection conexao) throws SQLException {
-        String sql = "SELECT titulo, autor, categoria FROM livros WHERE id_usuario_alugado = ?";
+        String sql = "SELECT titulo, autor, categoria, preco FROM livros WHERE id_usuario_alugado = ?";
         PreparedStatement statement = conexao.prepareStatement(sql);
         statement.setInt(1, this.getId());
         return statement.executeQuery();

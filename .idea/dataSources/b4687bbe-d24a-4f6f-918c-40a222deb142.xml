@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.52">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>899</IntrospectionStateNumber>
+      <IntrospectionStateNumber>905</IntrospectionStateNumber>
       <ServerVersion>16.2</ServerVersion>
       <StartupTime>1717704949</StartupTime>
       <TimeZones>true ACDT
@@ -809,7 +809,7 @@ false Zulu
 14697||10|C|G
 14697||-9223372036854775808|U|G
 14697||10|U|G</Grants>
-      <IntrospectionStateNumber>899</IntrospectionStateNumber>
+      <IntrospectionStateNumber>905</IntrospectionStateNumber>
       <ObjectId>16551</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4228,8 +4228,8 @@ false Zulu
     <schema id="265" parent="4" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>899</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2024-06-10.00:53:37</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>905</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2024-06-10.01:02:59</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>524</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
@@ -4260,7 +4260,7 @@ false Zulu
     </sequence>
     <table id="269" parent="265" name="livros">
       <ObjectId>16580</ObjectId>
-      <StateNumber>879</StateNumber>
+      <StateNumber>904</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
@@ -4342,11 +4342,11 @@ false Zulu
       <TypeId>23</TypeId>
     </column>
     <column id="282" parent="269" name="preco">
-      <DasType>double precision|0s</DasType>
+      <DasType>numeric|0s</DasType>
       <DefaultExpression>0</DefaultExpression>
       <Position>13</Position>
-      <StateNumber>881</StateNumber>
-      <TypeId>701</TypeId>
+      <StateNumber>904</StateNumber>
+      <TypeId>1700</TypeId>
     </column>
     <foreign-key id="283" parent="269" name="livros_iduser_fkey">
       <ColNames>id_usuario</ColNames>
@@ -4367,7 +4367,7 @@ false Zulu
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16586</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>791</StateNumber>
+      <StateNumber>904</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
