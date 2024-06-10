@@ -114,6 +114,13 @@ public class BibliotecaBase extends JFrame {
     }
 
     protected void initComponents() {
+        // Verifica se o BibliotecaPanel foi inicializado corretamente
+        if (BibliotecaPanel == null) {
+            BibliotecaPanel = new JPanel();
+            BibliotecaPanel.setLayout(new BorderLayout());
+            setContentPane(BibliotecaPanel);
+        }
+
         btnAlterarStatus = new JButton("Alterar Status");
         btnAlterarStatus.addActionListener(e -> {
             int[] selectedRows = tabelaLivros.getSelectedRows();
@@ -123,11 +130,21 @@ public class BibliotecaBase extends JFrame {
             }
         });
 
-        BibliotecaPanel.add(btnAlterarStatus, BorderLayout.SOUTH);
+        // Verifica se o layout do BibliotecaPanel está definido corretamente
+        if (BibliotecaPanel.getLayout() instanceof BorderLayout) {
+            // Adiciona o botão btnAlterarStatus ao sul (SOUTH) do BibliotecaPanel
+            BibliotecaPanel.add(btnAlterarStatus, BorderLayout.SOUTH);
+        } else {
+            // Caso o layout não seja BorderLayout, adiciona o botão ao final do BibliotecaPanel
+            BibliotecaPanel.add(btnAlterarStatus);
+        }
     }
 
+
     protected void initComponentsCliente() {
+        // Certifique-se de que TituloBiblio e image estejam inicializados
         TituloBiblio = new JLabel("Livros Alugados");
+        image = new JLabel(); // Adicione essa linha para inicializar image
 
         tabelaLivrosModel = new DefaultTableModel(new Object[]{"Título", "Autor", "Preço", "Categoria"}, 0) {
             @Override
@@ -138,12 +155,20 @@ public class BibliotecaBase extends JFrame {
         tabelaLivros = new JTable(tabelaLivrosModel);
         JScrollPane scrollPane = new JScrollPane(tabelaLivros);
 
+        // Certifique-se de que BibliotecaPanel esteja inicializado
+        if (BibliotecaPanel == null) {
+            BibliotecaPanel = new JPanel(new BorderLayout());
+            setContentPane(BibliotecaPanel); // Se BibliotecaPanel não foi inicializado, inicialize-o aqui
+        }
+
+        // Adiciona os componentes ao painel BibliotecaPanel
         BibliotecaPanel.add(TituloBiblio, BorderLayout.NORTH);
         BibliotecaPanel.add(image, BorderLayout.CENTER);
         BibliotecaPanel.add(scrollPane, BorderLayout.SOUTH);
 
         carregarLivrosAlugados();
     }
+
 
     private void carregarTodosLivros() {
         Connection conexao = null;
@@ -183,7 +208,9 @@ public class BibliotecaBase extends JFrame {
                 livro.setTitulo(rs.getString("titulo"));
                 livro.setAutor(rs.getString("autor"));
                 livro.setCategoria(rs.getString("categoria"));
-                double preco = rs.getDouble("preco");
+
+                // Verifique se o nome da coluna está correto
+                double preco = rs.getDouble("preco"); // Verifique se o nome da coluna está correto
                 livro.setValor(preco);
 
                 tabelaLivrosModel.addRow(new Object[]{livro.getTitulo(), livro.getAutor(), livro.getValor(), livro.getCategoria()});
@@ -194,6 +221,7 @@ public class BibliotecaBase extends JFrame {
             Conexao.fecharConexao(conexao);
         }
     }
+
 
     protected boolean definirStatusLivro(int livroId, boolean isDeleted) {
         Connection conexao = null;

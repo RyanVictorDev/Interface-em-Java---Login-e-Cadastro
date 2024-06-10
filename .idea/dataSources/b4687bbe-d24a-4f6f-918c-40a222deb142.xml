@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.52">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>822</IntrospectionStateNumber>
+      <IntrospectionStateNumber>880</IntrospectionStateNumber>
       <ServerVersion>16.2</ServerVersion>
       <StartupTime>1717704949</StartupTime>
       <TimeZones>true ACDT
@@ -809,7 +809,7 @@ false Zulu
 14697||10|C|G
 14697||-9223372036854775808|U|G
 14697||10|U|G</Grants>
-      <IntrospectionStateNumber>822</IntrospectionStateNumber>
+      <IntrospectionStateNumber>880</IntrospectionStateNumber>
       <ObjectId>16551</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4228,8 +4228,8 @@ false Zulu
     <schema id="265" parent="4" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>822</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2024-06-09.20:29:57</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>880</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2024-06-10.00:16:05</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>524</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
@@ -4260,7 +4260,7 @@ false Zulu
     </sequence>
     <table id="269" parent="265" name="livros">
       <ObjectId>16580</ObjectId>
-      <StateNumber>791</StateNumber>
+      <StateNumber>879</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
@@ -4287,9 +4287,8 @@ false Zulu
     </column>
     <column id="273" parent="269" name="id_usuario">
       <DasType>integer|0s</DasType>
-      <NotNull>1</NotNull>
       <Position>2</Position>
-      <StateNumber>793</StateNumber>
+      <StateNumber>847</StateNumber>
       <TypeId>23</TypeId>
     </column>
     <column id="274" parent="269" name="titulo">
@@ -4336,17 +4335,17 @@ false Zulu
       <StateNumber>820</StateNumber>
       <TypeId>16</TypeId>
     </column>
-    <column id="281" parent="269" name="preco">
-      <DasType>varchar|0s</DasType>
-      <Position>11</Position>
-      <StateNumber>785</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="282" parent="269" name="id_usuario_alugado">
+    <column id="281" parent="269" name="id_usuario_alugado">
       <DasType>integer|0s</DasType>
       <Position>12</Position>
       <StateNumber>793</StateNumber>
       <TypeId>23</TypeId>
+    </column>
+    <column id="282" parent="269" name="preco">
+      <DasType>double precision|0s</DasType>
+      <Position>13</Position>
+      <StateNumber>879</StateNumber>
+      <TypeId>701</TypeId>
     </column>
     <foreign-key id="283" parent="269" name="livros_iduser_fkey">
       <ColNames>id_usuario</ColNames>
