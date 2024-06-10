@@ -78,10 +78,10 @@ public class ClienteUploadLivro extends JFrame {
             String titulo = tituloInput.getText();
             String autor = autorInput.getText();
             String categoria = categoriaInput.getText();
-            String preco = precoInput.getText();
+            double preco = Double.parseDouble(precoInput.getText());
 
             // Validar entrada
-            if (titulo.isEmpty() || autor.isEmpty() || categoria.isEmpty() || preco.isEmpty()) {
+            if (titulo.isEmpty() || autor.isEmpty() || categoria.isEmpty() || precoInput.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Todos os campos devem ser preenchidos!");
                 return;
             }
@@ -91,7 +91,7 @@ public class ClienteUploadLivro extends JFrame {
             try {
                 conexao = Conexao.conectar();
                 cadastrarLivro(conexao, titulo, autor, categoria, preco, nomeUsuario);
-                JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Objs.Livro cadastrado com sucesso!");
+                JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Livro cadastrado  com sucesso!");
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Erro ao cadastrar livro: " + ex.getMessage());
             } finally {
@@ -100,13 +100,13 @@ public class ClienteUploadLivro extends JFrame {
         });
     }
 
-    private void cadastrarLivro(Connection conexao, String titulo, String autor, String categoria, String preco, String nomeUsuario) throws SQLException {
+    private void cadastrarLivro(Connection conexao, String titulo, String autor, String categoria, double preco, String nomeUsuario) throws SQLException {
         String sql = "INSERT INTO livros (titulo, autor, categoria, preco, id_usuario) VALUES (?, ?, ?, ?, (SELECT id FROM usuario WHERE nome = ?))";
         PreparedStatement statement = conexao.prepareStatement(sql);
         statement.setString(1, titulo);
         statement.setString(2, autor);
         statement.setString(3, categoria);
-        statement.setString(4, preco);
+        statement.setDouble(4, preco);
         statement.setString(5, nomeUsuario);
         statement.executeUpdate();
     }

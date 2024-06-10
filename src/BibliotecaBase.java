@@ -209,9 +209,14 @@ public class BibliotecaBase extends JFrame {
                 livro.setAutor(rs.getString("autor"));
                 livro.setCategoria(rs.getString("categoria"));
 
-                // Verifique se o nome da coluna está correto
-                double preco = rs.getDouble("preco"); // Verifique se o nome da coluna está correto
-                livro.setValor(preco);
+                // Verificar se o valor da coluna "preco" é null
+                double preco = rs.getDouble("preco");
+                if (!rs.wasNull()) {
+                    livro.setValor(preco);
+                } else {
+                    // Definir um valor padrão ou lidar com a situação de valor null conforme necessário
+                    livro.setValor(0.0); // Por exemplo, definindo o valor como 0.0
+                }
 
                 tabelaLivrosModel.addRow(new Object[]{livro.getTitulo(), livro.getAutor(), livro.getValor(), livro.getCategoria()});
             }
@@ -221,6 +226,7 @@ public class BibliotecaBase extends JFrame {
             Conexao.fecharConexao(conexao);
         }
     }
+
 
 
     protected boolean definirStatusLivro(int livroId, boolean isDeleted) {

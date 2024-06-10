@@ -5,7 +5,7 @@ import java.sql.*;
 public class Conexao {
     private static final String URL = "jdbc:postgresql://localhost/saraijavas";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "admin";
+    private static final String PASSWORD = "832450";
 
     public static Connection conectar() {
         try {
