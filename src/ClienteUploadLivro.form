@@ -42,7 +42,7 @@
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Adicionar Objs.Livro"/>
+          <text value="Adicionar Livro"/>
         </properties>
       </component>
       <component id="ccc4d" class="javax.swing.JLabel" binding="tituloLivro">
@@ -50,7 +50,7 @@
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Nome do Objs.Livro:"/>
+          <text value="Nome do Livro:"/>
         </properties>
       </component>
       <component id="ee338" class="javax.swing.JLabel" binding="autor">
