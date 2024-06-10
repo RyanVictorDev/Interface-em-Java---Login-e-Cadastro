@@ -44,7 +44,6 @@ public class ClienteUploadLivro extends JFrame {
         popupMenu.add(menuItem3);
         popupMenu.add(menuItem4);
 
-
         menuItem1.addActionListener(e -> {
             new ClienteHome(nomeUsuario,false);
             dispose();
@@ -73,16 +72,39 @@ public class ClienteUploadLivro extends JFrame {
             }
         });
 
+        // Adicionar InputVerifier ao campo de preço
+        precoInput.setInputVerifier(new InputVerifier() {
+            @Override
+            public boolean verify(JComponent input) {
+                JTextField textField = (JTextField) input;
+                try {
+                    Double.parseDouble(textField.getText());
+                    return true;
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Por favor, insira um valor numérico válido para o preço.");
+                    return false;
+                }
+            }
+        });
+
         // Adicionando funcionalidade ao botão de upload
         uploadButton.addActionListener(e -> {
             String titulo = tituloInput.getText();
             String autor = autorInput.getText();
             String categoria = categoriaInput.getText();
-            double preco = Double.parseDouble(precoInput.getText());
+            String precoText = precoInput.getText();
 
             // Validar entrada
-            if (titulo.isEmpty() || autor.isEmpty() || categoria.isEmpty() || precoInput.getText().isEmpty()) {
+            if (titulo.isEmpty() || autor.isEmpty() || categoria.isEmpty() || precoText.isEmpty()) {
                 JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Todos os campos devem ser preenchidos!");
+                return;
+            }
+
+            double preco;
+            try {
+                preco = Double.parseDouble(precoText);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Por favor, insira um valor numérico válido para o preço.");
                 return;
             }
 
@@ -91,7 +113,7 @@ public class ClienteUploadLivro extends JFrame {
             try {
                 conexao = Conexao.conectar();
                 cadastrarLivro(conexao, titulo, autor, categoria, preco, nomeUsuario);
-                JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Livro cadastrado  com sucesso!");
+                JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Livro cadastrado com sucesso!");
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(ClienteUploadLivro.this, "Erro ao cadastrar livro: " + ex.getMessage());
             } finally {
@@ -133,4 +155,5 @@ public class ClienteUploadLivro extends JFrame {
             Conexao.fecharConexao(conexao);
         }
     }
+
 }

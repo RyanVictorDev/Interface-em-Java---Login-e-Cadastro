@@ -87,7 +87,7 @@ public class BibliotecaBase extends JFrame {
 // Adicionar as opções específicas do cliente (não administrador)
         if (!isAdmin) {
             JMenuItem menuItem2 = new JMenuItem("Biblioteca Pessoal");
-            JMenuItem menuItem3 = new JMenuItem("Saldo: R$ " + usuarioCliente.getSaldo());
+            JMenuItem menuItem3 = new JMenuItem("Saldo: R$ " + obterSaldoUsuario(nomeUsuario)); // Exibe o saldo atual
 
             popupMenu.add(menuItem2);
             popupMenu.add(menuItem3);
@@ -117,7 +117,6 @@ public class BibliotecaBase extends JFrame {
             initComponents(); // Inicializar componentes do admin
             carregarTodosLivros();
         } else {
-            initComponents(); // Inicializar componentes do admin
             carregarLivrosAlugados();
         }
     }
@@ -241,8 +240,27 @@ public class BibliotecaBase extends JFrame {
         }
     }
 
+    private double obterSaldoUsuario(String nomeUsuario) {
+        Connection conexao = null;
+        try {
+            conexao = Conexao.conectar();
+            String sql = "SELECT saldo FROM usuario WHERE nome = ?";
+            PreparedStatement statement = conexao.prepareStatement(sql);
+            statement.setString(1, nomeUsuario);
+            ResultSet resultSet = statement.executeQuery();
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new BibliotecaBase("Admin", false));
+            if (resultSet.next()) {
+                return resultSet.getDouble("saldo");
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuário não encontrado.");
+                return 0;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao obter saldo: " + ex.getMessage());
+            return 0;
+        } finally {
+            Conexao.fecharConexao(conexao);
+        }
     }
+
 }
