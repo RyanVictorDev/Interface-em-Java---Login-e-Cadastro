@@ -66,10 +66,18 @@ public class BibliotecaBase extends JFrame {
         popupMenu.add(menuItem1);
         popupMenu.add(menuItem4);
 
-        menuItem1.addActionListener(e -> {
+        if(!isAdmin){
+            menuItem1.addActionListener(e -> {
+                new ClienteHome(nomeUsuario,false);
+                dispose();
+            });
+        }
+        else{
+            menuItem1.addActionListener(e -> {
             new AdminHome(nomeUsuario);
             dispose();
         });
+        }
 
         menuItem4.addActionListener(e -> {
             new MainInterface();
@@ -139,35 +147,6 @@ public class BibliotecaBase extends JFrame {
             // Caso o layout não seja BorderLayout, adiciona o botão ao final do BibliotecaPanel
             BibliotecaPanel.add(btnAlterarStatus);
         }
-    }
-
-
-    protected void initComponentsCliente() {
-        // Certifique-se de que TituloBiblio e image estejam inicializados
-        TituloBiblio = new JLabel("Livros Alugados");
-        image = new JLabel(); // Adicione essa linha para inicializar image
-
-        tabelaLivrosModel = new DefaultTableModel(new Object[]{"Título", "Autor", "Preço", "Categoria"}, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        tabelaLivros = new JTable(tabelaLivrosModel);
-        JScrollPane scrollPane = new JScrollPane(tabelaLivros);
-
-        // Certifique-se de que BibliotecaPanel esteja inicializado
-        if (BibliotecaPanel == null) {
-            BibliotecaPanel = new JPanel(new BorderLayout());
-            setContentPane(BibliotecaPanel); // Se BibliotecaPanel não foi inicializado, inicialize-o aqui
-        }
-
-        // Adiciona os componentes ao painel BibliotecaPanel
-        BibliotecaPanel.add(TituloBiblio, BorderLayout.NORTH);
-        BibliotecaPanel.add(image, BorderLayout.CENTER);
-        BibliotecaPanel.add(scrollPane, BorderLayout.SOUTH);
-
-        carregarLivrosAlugados();
     }
 
 
