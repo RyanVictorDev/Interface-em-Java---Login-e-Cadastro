@@ -109,7 +109,8 @@ public class BibliotecaBase extends JFrame {
             initComponents(); // Inicializar componentes do admin
             carregarTodosLivros();
         } else {
-            initComponentsCliente(); // Inicializar componentes do cliente
+            initComponents(); // Inicializar componentes do admin
+            carregarLivrosAlugados();
         }
     }
 
@@ -263,6 +264,6 @@ public class BibliotecaBase extends JFrame {
 
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new BibliotecaBase("Admin", true));
+        SwingUtilities.invokeLater(() -> new BibliotecaBase("Admin", false));
     }
 }
